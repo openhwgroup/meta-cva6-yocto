@@ -41,7 +41,7 @@ bitbake-layers add-layer ../meta-openembedded/meta-python
 bitbake-layers add-layer ../meta-openembedded/meta-multimedia
 bitbake-layers add-layer ../meta-openembedded/meta-networking
 bitbake-layers add-layer ../meta-riscv
-bitbake-layers add-layer ../meta-openhw
+bitbake-layers add-layer ../meta-cva6-yocto
 
 # fix the configuration
 echo "Creating auto.conf"

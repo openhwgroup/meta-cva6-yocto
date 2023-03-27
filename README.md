@@ -1,6 +1,6 @@
-# meta-openhw
+# meta-cva6-yocto
 
-This README file contains information on the contents of the meta-cva6 layer.
+This README file contains information on the contents of the meta-cva6-yocto layer.
 
 This layer is compatible with honister.
 
@@ -22,7 +22,7 @@ This layer depends on:
 
 The system requirements for yocto are described [here](https://docs.yoctoproject.org/3.4/ref-manual/system-requirements.html).
 
-## Adding the meta-cva6 layer to your build
+## Adding the meta-cva6-yocto layer to your build
 
 First install the repo tool
 ```text
@@ -35,14 +35,14 @@ PATH=${PATH}:~/bin
 ### Create workspace
 ```text
 mkdir cva6-yocto && cd cva6-yocto
-repo init -u https://github.com/ThalesGroup/meta-openhw -b master -m tools/manifests/openhw-yocto.xml
+repo init -u https://github.com/openhwgroup/meta-cva6-yocto -b main -m tools/manifests/cva6-yocto.xml
 repo sync
 repo start work --all
 ```
 
 ### Setup Build Environment
 ```text
-. ./meta-openhw/setup.sh
+. ./meta-cva6-yocto/setup.sh
 ```
 
 ## Available Machines
