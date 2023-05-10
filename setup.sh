@@ -2,7 +2,7 @@
 # Bootstrapper for buildbot slave
 
 DIR="build"
-MACHINE="c32va6-genesys2"
+MACHINE="cv32a6-genesys2"
 CONFFILE="conf/auto.conf"
 BITBAKEIMAGE="core-image-full-cmdline"
 
