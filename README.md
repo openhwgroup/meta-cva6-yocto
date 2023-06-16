@@ -49,7 +49,8 @@ repo start work --all
 
 This layer is available for:
 
-* cv[32|64]a6-genesys2: The Digilent FPGA board with the bitstream generated from the [cva6 corev-apu](https://github.com/openhwgroup/cva6).
+* cv64a6-genesys2: The Digilent FPGA board with the bitstream generated from the [cva6 corev-apu](https://github.com/openhwgroup/cva6) with target default target cv64a6_imafdc_sv39.
+* cv32a6-genesys2: Same board with the bitstream generated from the [cva6 corev-apu](https://github.com/openhwgroup/cva6) with target cv32a6_ima_sv32_fpga.
 
 ## Build and flash your image
 
