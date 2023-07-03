@@ -2,7 +2,7 @@
 # Bootstrapper for buildbot slave
 
 DIR="build"
-MACHINE="cv32a6-genesys2"
+MACHINE="cv32a6ima-genesys2"
 CONFFILE="conf/auto.conf"
 BITBAKEIMAGE="core-image-full-cmdline"
 
@@ -80,13 +80,14 @@ EOF
 
 echo "To build an image run"
 echo "---------------------------------------------------"
-echo "MACHINE=cv64a6-genesys2 bitbake core-image-minimal"
+echo "MACHINE=cv64a6gc-genesys2 bitbake core-image-minimal"
 echo "---------------------------------------------------"
 echo ""
 echo "Buildable machine info"
 echo "---------------------------------------------------"
-echo "* cv64a6-genesys2: The OpenHW CV64A6 SoC on Genesys2"
-echo "* cv32a6-genesys2: The OpenHW CV32A6 SoC on Genesys2"
+echo "* cv64a6gc-genesys2: The OpenHW CV64A6 SoC on Genesys2 for rv64gc"
+echo "* cv32a6ima-genesys2: The OpenHW CV32A6 SoC on Genesys2 for rv32ima"
+echo "* cv32a6imac-genesys2: The OpenHW CV32A6 SoC on Genesys2 for rv32imac"
 echo "---------------------------------------------------"
 
 # start build

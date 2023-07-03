@@ -49,21 +49,22 @@ repo start work --all
 
 This layer is available for:
 
-* **cv64a6-genesys2**: The Digilent FPGA board with the bitstream generated from the [cva6 corev-apu](https://github.com/openhwgroup/cva6) with target default target *cv64a6_imafdc_sv39*.
-* **cv32a6-genesys2**: Same board with the bitstream generated from the [cva6 corev-apu](https://github.com/openhwgroup/cva6) with target *cv32a6_ima_sv32_fpga*.
+* **cv64a6gc-genesys2**: The Digilent FPGA board with the bitstream generated from the [cva6 corev-apu](https://github.com/openhwgroup/cva6) with target default target *cv64a6_imafdc_sv39*.
+* **cv32a6ima-genesys2**: Same board with the bitstream generated from the [cva6 corev-apu](https://github.com/openhwgroup/cva6) with target *cv32a6_ima_sv32_fpga*.
+* **cv32a6imac-genesys2**: Same board with the bitstream generated from the [cva6 corev-apu](https://github.com/openhwgroup/cva6) with target *cv32a6_imac_sv32*.
 
 ## Build and flash your image
 
-To generate a console-only image for the cv32a6-genesys2:
+To generate a console-only image for the cv32a6ima-genesys2:
 ```text
-MACHINE=cv32a6-genesys2 bitbake core-image-minimal
+MACHINE=cv32a6ima-genesys2 bitbake core-image-minimal
 ```
-Image files will be located in build/tmp-glibc/deploy/images/cv32a6-genesys2.
+Image files will be located in build/tmp-glibc/deploy/images/cv32a6ima-genesys2.
 
 Warning, you need to find the correct device image and fill it in the dd's of= parameter:
 
 ```text
-gunzip -c build/tmp-glibc/deploy/images/cv32a6-genesys2/core-image-minimal-cv32a6-genesys2.wic.gz | sudo dd of=/dev/sd$ bs=1M iflag=fullblock oflag=direct conv=fsync status=progress
+gunzip -c build/tmp-glibc/deploy/images/cv32a6ima-genesys2/core-image-minimal-cv32a6ima-genesys2.wic.gz | sudo dd of=/dev/sd$ bs=1M iflag=fullblock oflag=direct conv=fsync status=progress
 ```
 
 The login is "root", no password is needed.
@@ -75,7 +76,7 @@ The login is "root", no password is needed.
 To produce the SDK for your target, you need to launch the following command : 
 
 ```text
-MACHINE=cv32a6-genesys2 bitbake core-image-minimal -c populate_sdk_ext
+MACHINE=cv32a6ima-genesys2 bitbake core-image-minimal -c populate_sdk_ext
 ```
 
 This will create the SDK Installer in build/tmp-glibc/deploy/sdk/oecore-x86_64-riscv32nf-toolchain-ext-nodistro.0.sh file.
