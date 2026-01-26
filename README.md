@@ -2,25 +2,22 @@
 
 This README file contains information on the contents of the meta-cva6-yocto layer.
 
-This layer is compatible with honister.
+This layer is compatible with scarthgap.
 
 ## Dependencies
 
 This layer depends on:
 
-* URI: https://github.com/openembedded/openembedded-core
-  * branch: master
+* URI: https://git.openembedded.org/meta-openembedded
+  * branch: scarthgap
   * revision: HEAD
-* URI: https://github.com/openembedded/bitbake
-  * branch: master
-  * revision: HEAD
-* URI: https://github.com/riscv/meta-riscv
-  * branch: master  
+* URI: https://git.yoctoproject.org/git/poky
+  * branch: scrathgap
   * revision: HEAD
 
 ## System requirements
 
-The system requirements for yocto are described [here](https://docs.yoctoproject.org/3.4/ref-manual/system-requirements.html).
+The system requirements for yocto are described [here](https://docs.yoctoproject.org/scarthgap/ref-manual/system-requirements.html).
 
 ## Adding the meta-cva6-yocto layer to your build
 
@@ -35,7 +32,7 @@ PATH=${PATH}:~/bin
 ### Create workspace
 ```text
 mkdir cva6-yocto && cd cva6-yocto
-repo init -u https://github.com/openhwgroup/meta-cva6-yocto -b main -m tools/manifests/cva6-yocto.xml
+repo init -u https://github.com/openhwgroup/meta-cva6-yocto -b scarthgap -m tools/manifests/cva6-yocto.xml
 repo sync
 repo start work --all
 ```
@@ -60,25 +57,32 @@ To generate a console-only image for the cv32a6-genesys2:
 ```text
 MACHINE=cv32a6-genesys2 bitbake core-image-minimal
 ```
-Image files will be located in build/tmp-glibc/deploy/images/cv32a6-genesys2.
+Image files will be located in build/tmp/deploy/images/cv32a6-genesys2.
 
 ### Flashing in Genesys II
 Warning, you need to find the correct device image and fill it in the dd's of= parameter:
 
 ```text
-gunzip -c build/tmp-glibc/deploy/images/cv32a6-genesys2/core-image-minimal-cv32a6-genesys2.wic.gz | sudo dd of=/dev/sd$ bs=1M iflag=fullblock oflag=direct conv=fsync status=progress
+gunzip -c build/tmp/deploy/images/cv32a6-genesys2/core-image-minimal-cv32a6-genesys2.wic.gz | sudo dd of=/dev/sd$ bs=1M iflag=fullblock oflag=direct conv=fsync status=progress
+```
+
+Or use bmaptool if you have it:
+
+```text
+sudo bmaptool copy build/tmp/deploy/images/cv32a6-genesys2/core-image-minimal-cv32a6-genesys2.wic.gz /dev/sd$
 ```
 The login is "root", no password is needed.
 
 ### Flashing in Agilex7
 ```text
-cd agilex7-sd
-make format-sd SDDEVICE=/dev/sdX
-make flash-sd  SDDEVICE=/dev/sdX MACHINE=cv32a6-agilex7
+gunzip -c build/tmp/deploy/images/cv32a6-agilex7/core-image-minimal-cv32a6-agilex7.wic.gz | sudo dd of=/dev/sd$ bs=1M iflag=fullblock oflag=direct conv=fsync status=progress
 ```
 
-*NOTE: You may need to remove and insert the SD card between format and flash commands.
+Or use bmaptool if you have it:
 
+```text
+sudo bmaptool copy build/tmp/deploy/images/cv32a6-agilex7/core-image-minimal-cv32a6-agilex7.wic.gz /dev/sd$
+```
 The login is "root", no password is needed.
 
 ## Yocto SDK
@@ -91,11 +95,12 @@ To produce the SDK for your target, you need to launch the following command :
 MACHINE=cv32a6-genesys2 bitbake core-image-minimal -c populate_sdk_ext
 ```
 
-This will create the SDK Installer in build/tmp-glibc/deploy/sdk/oecore-x86_64-riscv32nf-toolchain-ext-nodistro.0.sh file.
+This will create the SDK Installer in build/tmp/deploy/sdk/poky-glibc-x86_64-core-image-minimal-riscv32nf-cv32a6-genesys2-toolchain-ext-5.0.11.sh file.
 
 To install it, simply run
 ```text
-./build/tmp-glibc/deploy/sdk/oecore-x86_64-riscv32nf-toolchain-ext-nodistro.0.sh
+./build/tmp/deploy/sdk/poky-glibc-x86_64-core-image-minimal-riscv32nf-cv32a6-genesys2-toolchain-ext-5.0.11.sh
+
 ```
 
 You can install the SDK anywhere you want as long as you have writing rights.
@@ -106,14 +111,9 @@ You can install the SDK anywhere you want as long as you have writing rights.
 To use the SDK, you need to source the environment-setup file in the SDK install path :
 
 ```text
-source $(SDK_INSTALL_PATH)/environment-setup-riscv32nf-oe-linux
+source $(SDK_INSTALL_PATH)/environment-setup-riscv32nf-poky-linux
 ```
 
 Your environment variables should have changed (e.g. **PATH**, **CC**, **LD** and more). This allow you to manually build software.
 The *devtool* command is also available. It will allow build, test, package an integrate software in the Yocto build system.
 
-## Tests done
-
-The core-image-minimal has been tested for the 32 and 64bits version of corev-apu with release [3ddf797](https://github.com/openhwgroup/cva6/tree/3ddf797e95923fd11113c8e443046105dfbf8843).
-
-TFTP boot from u-boot is working.

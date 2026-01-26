@@ -1,8 +1,9 @@
-From 723f6e5965b9a3d19a65f27c1bec46d734b0bb5f Mon Sep 17 00:00:00 2001
+From 69188fb9a919b146900e9c7e9eb8877150b1b992 Mon Sep 17 00:00:00 2001
 From: Kevin Eyssartier <kevin.eyssartier@thalesgroup.com>
 Date: Wed, 2 Feb 2022 16:50:40 +0100
-Subject: [PATCH] cva6-genesys2: add 32 and 64 bits dts
+Subject: [PATCH 1/2] cva6-genesys2: add 32 and 64 bits dts
 
+Upstream-Status: Pending
 ---
  arch/riscv/boot/dts/Makefile                  |   1 +
  .../boot/dts/openhwgroup/cv32a6_genesysII.dts | 145 ++++++++++++++++++
@@ -12,19 +13,19 @@ Subject: [PATCH] cva6-genesys2: add 32 and 64 bits dts
  create mode 100644 arch/riscv/boot/dts/openhwgroup/cv64a6_genesysII.dts
 
 diff --git a/arch/riscv/boot/dts/Makefile b/arch/riscv/boot/dts/Makefile
-index ca1f8cbd78c0..f8363481231a 100644
+index f60a280abb15..c98e7e153f19 100644
 --- a/arch/riscv/boot/dts/Makefile
 +++ b/arch/riscv/boot/dts/Makefile
-@@ -1,5 +1,6 @@
- # SPDX-License-Identifier: GPL-2.0
+@@ -6,5 +6,6 @@ subdir-y += renesas
  subdir-y += sifive
- subdir-y += kendryte
+ subdir-y += starfive
+ subdir-y += thead
 +subdir-y += openhwgroup
  
  obj-$(CONFIG_BUILTIN_DTB) := $(addsuffix /, $(subdir-y))
 diff --git a/arch/riscv/boot/dts/openhwgroup/cv32a6_genesysII.dts b/arch/riscv/boot/dts/openhwgroup/cv32a6_genesysII.dts
 new file mode 100644
-index 000000000000..41640be51f0d
+index 000000000000..1567864d8ba8
 --- /dev/null
 +++ b/arch/riscv/boot/dts/openhwgroup/cv32a6_genesysII.dts
 @@ -0,0 +1,145 @@
@@ -175,7 +176,7 @@ index 000000000000..41640be51f0d
 +};
 diff --git a/arch/riscv/boot/dts/openhwgroup/cv64a6_genesysII.dts b/arch/riscv/boot/dts/openhwgroup/cv64a6_genesysII.dts
 new file mode 100644
-index 000000000000..b699c7bbb041
+index 000000000000..70bf02808955
 --- /dev/null
 +++ b/arch/riscv/boot/dts/openhwgroup/cv64a6_genesysII.dts
 @@ -0,0 +1,145 @@
@@ -324,3 +325,6 @@ index 000000000000..b699c7bbb041
 +    };
 +  };
 +};
+-- 
+2.39.5
+

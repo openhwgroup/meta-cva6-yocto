@@ -3,38 +3,26 @@ require recipes-bsp/u-boot/u-boot.inc
 
 FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
-SRC_URI = "git://github.com/openhwgroup/u-boot.git;protocol=https;branch=cva6 \
-           file://tftp-mmc-boot.txt \
-           "
-SRC_URI:append:cv32a6-genesys2 = "file://devtool-fragment.cfg \
-                                  file://0006-CV32A6-FIT-FAT-EXT4-LOWRISC-defconfig.patch \
-                                  "
+SRC_URI = "git://source.denx.de/u-boot/u-boot.git;protocol=https;branch=master; \
+           file://0001-cva6-Add-Genesys-2-support.patch \
+           file://0002-Support-agilex-13.patch \
+           file://0003-cva6-agilex7-updated-Kconfig-for-current-u-boot.patch \
+           file://0004-cva6-agilex7-moved-constants-from-code-to-config.patch \
+           file://0005-configs-agilex7-disable-RISCV_ISA_F-for-32bit-defcon.patch \
+          "
 
-SRC_URI:append:cv64a6-genesys2 = "file://devtool-fragment.cfg \
-                                  file://0004-CV64A6-add-ext4-and-fat-functionalities.patch \
-                                  file://0005-CV64A6-add-fitImage-support.patch \
-                                  "
+SRCREV = "34820924edbc4ec7803eb89d9852f4b870fa760a"
+
+SRC_URI:append:cv32a6-genesys2 = "file://devtool-fragment.cfg"
+SRC_URI:append:cv64a6-genesys2 = "file://devtool-fragment.cfg"
 
 SRC_URI:append:cv32a6-agilex7 = "file://devtool-fragment-agilex.cfg \
                                  file://0008-agilex7_config.patch \
                                  "
-                                 
+
 SRC_URI:append:cv64a6-agilex7 = "file://devtool-fragment-agilex.cfg \
                                  file://0008-agilex7_config.patch \
                                  "
 
-SRCREV = "f6220650cabb75933abf932c8cbed40363e44f0a"
-SRC_URI[sha256sum] = "d8947969a5834b333afa2a8de9d079a74eb73675d3a7fe56e6a6edd5efae18f9"
+DEPENDS += "bc-native dtc-native gnutls-native python3-pyelftools-native u-boot-tools-native"
 
-DEPENDS:append = " u-boot-tools-native"
-
-# Overwrite this for your server
-TFTP_SERVER_IP ?= "127.0.0.1"
-
-do_configure:prepend() {
-    sed -i -e 's,@SERVERIP@,${TFTP_SERVER_IP},g' ${WORKDIR}/tftp-mmc-boot.txt
-    mkimage -O linux -T script -C none -n "U-Boot boot script" \
-        -d ${WORKDIR}/tftp-mmc-boot.txt ${WORKDIR}/${UBOOT_ENV_BINARY}
-}
-
-TOOLCHAIN = "gcc"

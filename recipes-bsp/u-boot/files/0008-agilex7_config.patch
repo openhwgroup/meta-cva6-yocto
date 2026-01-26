@@ -165,8 +165,8 @@ index 29b8f4a0d7..7feccacb8a 100644
 +++ b/configs/openhwgroup_cv32a6_agilex7_defconfig
 @@ -39,3 +39,7 @@ CONFIG_SPI_FLASH_MTD=y
  CONFIG_SYS_NS16550=y
- # CONFIG_SPI=y
- #CONFIG_XILINX_SPI=y
+ # CONFIG_SPI is not set
+ # CONFIG_XILINX_SPI is not set
 +CONFIG_CMD_EXT4=y
 +CONFIG_CMD_FAT=y
 +CONFIG_FIT=y
@@ -177,8 +177,8 @@ index 8adb3ce11b..faf9c053fc 100644
 +++ b/configs/openhwgroup_cv64a6_agilex7_defconfig
 @@ -41,3 +41,7 @@ CONFIG_SPI_FLASH_MTD=y
  CONFIG_SYS_NS16550=y
- # CONFIG_SPI=y
- # CONFIG_XILINX_SPI=y
+ # CONFIG_SPI is not set
+ # CONFIG_XILINX_SPI is not set
 +CONFIG_CMD_EXT4=y
 +CONFIG_CMD_FAT=y
 +CONFIG_FIT=y

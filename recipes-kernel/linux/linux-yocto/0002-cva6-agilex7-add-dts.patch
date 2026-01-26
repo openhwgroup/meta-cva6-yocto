@@ -1,3 +1,5 @@
+Upstream-Status: Pending
+
 diff --git a/arch/riscv/boot/dts/openhwgroup/cv32a6_agilex7.dts b/arch/riscv/boot/dts/openhwgroup/cv32a6_agilex7.dts
 new file mode 100644
 index 000000000000..f43a0165809f

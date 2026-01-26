@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<manifest>
-  <remote name="openembedded" fetch="https://github.com/openembedded/" />
-  <remote name="riscv" fetch="https://github.com/riscv/" />
+<manifest> 
+  <remote name="yocto" fetch="https://git.yoctoproject.org/git/"/>
+  <remote name="openembedded" fetch="https://git.openembedded.org/" />
   <remote name="openhwgroup" fetch="https://github.com/openhwgroup/" />
-  <default remote="openembedded" revision="master" />
 
-  <project name="meta-riscv" remote="riscv" path="meta-riscv" revision="9fb725c93549849bcf5623325f6ac256fcd56e1e" />
-  <project name="openembedded-core" remote="openembedded" path="openembedded-core" revision="ecb61b36938754cf925bf58aad3edf7346deced0" />
-  <project name="bitbake" remote="openembedded" path="openembedded-core/bitbake" revision="1f06f326fa8b47e2a4dce756d57a9369a2225201" />
-  <project name="meta-openembedded" remote="openembedded" path="meta-openembedded" revision="0d8dee917294c5529e9bb8d2dc31518bfe1c1252" />
-  <project name="meta-cva6-yocto" remote="openhwgroup" path="meta-cva6-yocto" revision="main" />
+  <default revision="scarthgap"
+           remote="yocto"
+           sync-j="4" />
+
+  <project path="poky" name="poky" />
+  <project name="meta-openembedded" remote="openembedded" path="meta-openembedded" />
+  <project name="meta-cva6-yocto" remote="openhwgroup" path="meta-cva6-yocto" />
 
 </manifest>

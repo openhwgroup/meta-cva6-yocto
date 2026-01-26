@@ -1,0 +1,8 @@
+# short-description: Create SD card image for CVA6 on Agilex7 board
+
+part /boot --source bootimg-partition --fstype=vfat --label HPS --active --offset 2048s --fixed-size 100M --align 1
+part opensbi --source rawcopy --sourceparams="file=fw_payload.bin" --fixed-size 411M --align 1
+part kernel --source rawcopy --sourceparams="file=fitImage" --fixed-size 100M --align 1
+part / --source rootfs --ondisk mmcblk0 --fstype=ext4 --label root --align 4096 --size 1G
+
+bootloader --ptable msdos

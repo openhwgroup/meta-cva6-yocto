@@ -1,0 +1,22 @@
+MACHINE ?= "cv64a6-genesys2"
+
+MACHINE ?= "${MACHINE}"
+DISTRO ?= "poky"
+
+EXTRA_IMAGE_FEATURES:append = " tools-debug"
+EXTRA_IMAGE_FEATURES:append = " debug-tweaks"
+EXTRA_IMAGE_FEATURES:append = " ssh-server-dropbear"
+EXTRA_IMAGE_FEATURES:append = " package-management"
+PACKAGECONFIG:append:pn-qemu-native = " sdl"
+PACKAGECONFIG:append:pn-nativesdk-qemu = " sdl"
+
+DISTRO_FEATURES:append = " largefile multiarch pam "
+#DISTRO_FEATURES_BACKFILL_CONSIDERED += "sysvinit"
+#VIRTUAL-RUNTIME_init_manager = "systemd"
+INIT_MANAGER = "mdev-busybox"
+HOSTTOOLS_NONFATAL:append = " ssh"
+SYSVINIT_ENABLED_GETTYS = ""
+IMAGE_INSTALL:append = " vitetris"
+IMAGE_INSTALL:append = " pacman4console"
+
+CONF_VERSION = "2"

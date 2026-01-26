@@ -1,0 +1,24 @@
+From f80cd5f377528e9edc4434e79c919c0401b88d7a Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Michael=20Wei=C3=9F?= <michael.weiss@aisec.fraunhofer.de>
+Date: Fri, 25 Jul 2025 13:33:15 +0200
+Subject: [PATCH 2/2] cva6-genesys2: added Makefile for dtb files
+
+Upstream-Status: Pending
+---
+ arch/riscv/boot/dts/openhwgroup/Makefile | 4 ++++
+ 1 file changed, 4 insertions(+)
+ create mode 100644 arch/riscv/boot/dts/openhwgroup/Makefile
+
+diff --git a/arch/riscv/boot/dts/openhwgroup/Makefile b/arch/riscv/boot/dts/openhwgroup/Makefile
+new file mode 100644
+index 000000000000..a50983bb814d
+--- /dev/null
++++ b/arch/riscv/boot/dts/openhwgroup/Makefile
+@@ -0,0 +1,4 @@
++# SPDX-License-Identifier: GPL-2.0
++dtb-y += cv32a6_genesysII.dtb \
++         cv64a6_genesysII.dtb
++obj-$(CONFIG_BUILTIN_DTB) += $(addsuffix .o, $(dtb-y))
+-- 
+2.39.5
+

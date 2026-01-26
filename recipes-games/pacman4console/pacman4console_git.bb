@@ -1,4 +1,4 @@
-LICENSE = "GPLv2"
+LICENSE = "GPL-2.0-only"
 LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
 
 SRC_URI = "git://github.com/YoctoForBeaglebone/pacman4console;protocol=https;branch=master \
@@ -22,7 +22,7 @@ do_compile () {
 do_install () {
     mkdir -p ${D}/usr/local/bin
     mkdir -p ${D}/usr/local/share/pacman/Levels
-    install -m 0644 ${W}/usr/local/bin/*  ${D}/usr/local/bin/
+    install -m 0755 ${W}/usr/local/bin/*  ${D}/usr/local/bin/
     install -m 0644 ${W}/usr/local/share/pacman/Levels/*  ${D}/usr/local/share/pacman/Levels
 }
 
