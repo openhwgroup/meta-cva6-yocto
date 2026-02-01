@@ -4,6 +4,10 @@ This README file contains information on the contents of the meta-cva6-yocto lay
 
 This layer is compatible with honister.
 
+# Starting with CVA6
+
+You can follow this [tutorial](https://github.com/ThalesGroup/cva6-eclipse-demo) to get your hands on the CVA6 and yocto implementation.
+
 ## Dependencies
 
 This layer depends on:
