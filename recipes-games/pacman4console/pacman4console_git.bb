@@ -22,7 +22,7 @@ do_compile () {
 do_install () {
     mkdir -p ${D}/usr/local/bin
     mkdir -p ${D}/usr/local/share/pacman/Levels
-    install -m 0644 ${W}/usr/local/bin/*  ${D}/usr/local/bin/
+    install -m 0755 ${W}/usr/local/bin/*  ${D}/usr/local/bin/
     install -m 0644 ${W}/usr/local/share/pacman/Levels/*  ${D}/usr/local/share/pacman/Levels
 }
 

@@ -1,0 +1,88 @@
+/dts-v1/;
+
+/ {
+    #address-cells = <2>;
+    #size-cells = <2>;
+    compatible = "openhwgroup,cva6-zcu111", "riscv-virtio";
+    model = "CVA6 ZCU111 DDR4";
+
+    chosen {
+        stdout-path = "serial0:115200n8";
+    };
+
+    cpus {
+        #address-cells = <1>;
+        #size-cells = <0>;
+        timebase-frequency = <25000000>;
+
+        cpu0: cpu@0 {
+            device_type = "cpu";
+            reg = <0>;
+            status = "okay";
+            compatible = "riscv";
+            riscv,isa = "rv64imafdc";
+            mmu-type = "riscv,sv39";
+
+            cpu0_intc: interrupt-controller {
+                #address-cells = <0>;
+                #interrupt-cells = <1>;
+                interrupt-controller;
+                compatible = "riscv,cpu-intc";
+            };
+        };
+    };
+
+    memory@80000000 {
+        device_type = "memory";
+        reg = <0x0 0x80000000 0x0 0x40000000>;
+    };
+
+    soc {
+        #address-cells = <2>;
+        #size-cells = <2>;
+        compatible = "simple-bus";
+        ranges;
+
+        clint0: clint@2000000 {
+            compatible = "riscv,clint0";
+            reg = <0x0 0x02000000 0x0 0x000c0000>;
+            interrupts-extended = <&cpu0_intc 3>, <&cpu0_intc 7>;
+        };
+
+        plic0: interrupt-controller@c000000 {
+            compatible = "riscv,plic0";
+            reg = <0x0 0x0c000000 0x0 0x03ffffff>;
+            #address-cells = <0>;
+            #interrupt-cells = <1>;
+            interrupt-controller;
+            riscv,ndev = <30>;
+            interrupts-extended = <&cpu0_intc 11>, <&cpu0_intc 9>;
+        };
+
+        serial0: serial@10000000 {
+            compatible = "ns16550a";
+            reg = <0x0 0x10000000 0x0 0x1000>;
+            reg-shift = <2>;
+            reg-io-width = <1>;
+            clock-frequency = <50000000>;
+            current-speed = <115200>;
+            interrupts = <1>;
+            interrupt-parent = <&plic0>;
+        };
+
+        pl_peripheral0: pl-peripheral@50000000 {
+            compatible = "generic-uio", "tst,zcu111-pl-peripheral";
+            reg = <0x0 0x50000000 0x0 0x1000>;
+            interrupts = <8>;
+            interrupt-parent = <&plic0>;
+        };
+
+        aes_gcm0: aes-gcm@50001000 {
+            compatible = "generic-uio", "tst,zcu111-aes-gcm";
+            linux,uio-name = "zcu111-aes-gcm";
+            reg = <0x0 0x50001000 0x0 0x1000>;
+            interrupts = <9>;
+            interrupt-parent = <&plic0>;
+        };
+    };
+};

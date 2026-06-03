@@ -1,0 +1,64 @@
+#!/bin/sh
+set -eu
+
+CORE_CLOCK_MHZ=50
+DHRYSTONE_RUNS=20000000
+DHRYSTONE_MAX_RUNS=5000000000
+COREMARK_LOG=/tmp/reference-coremark.log
+DHRYSTONE_LOG=/tmp/reference-dhrystone.log
+
+echo
+echo "CVA6 ZCU111 reference CPU benchmarks"
+echo "Baseline: customer cpu_benchmark snapshot"
+echo "Clock for normalized metrics: ${CORE_CLOCK_MHZ} MHz"
+echo
+echo "== Raw CoreMark =="
+/root/coremark 0x0 0x0 0x66 0 7 1 2000 | tee "${COREMARK_LOG}"
+
+COREMARK_SCORE="$(awk -F'[:/]' '/CoreMark 1.0/ {
+  gsub(/^[[:space:]]+|[[:space:]]+$/, "", $2)
+  print $2
+  exit
+}' "${COREMARK_LOG}")"
+if [ -z "${COREMARK_SCORE}" ]; then
+  echo "ERROR: CoreMark did not emit a score"
+  exit 1
+fi
+
+COREMARK_PER_MHZ="$(awk -v score="${COREMARK_SCORE}" -v mhz="${CORE_CLOCK_MHZ}" \
+  'BEGIN { printf "%.6f", score / mhz }')"
+echo
+echo "Reference CoreMark summary"
+echo "CoreMark       : ${COREMARK_SCORE}"
+echo "CoreMark/MHz   : ${COREMARK_PER_MHZ}"
+echo
+
+while :; do
+  echo "== Raw Dhrystone (${DHRYSTONE_RUNS} runs) =="
+  printf '%s\n' "${DHRYSTONE_RUNS}" | /root/dhrystone | tee "${DHRYSTONE_LOG}"
+
+  if grep -q "Dhrystones per Second" "${DHRYSTONE_LOG}"; then
+    break
+  fi
+  if ! grep -q "Measured time too small" "${DHRYSTONE_LOG}"; then
+    echo "ERROR: Dhrystone did not emit a valid result"
+    exit 1
+  fi
+
+  DHRYSTONE_RUNS=$((DHRYSTONE_RUNS * 2))
+  if [ "${DHRYSTONE_RUNS}" -gt "${DHRYSTONE_MAX_RUNS}" ]; then
+    echo "ERROR: Dhrystone did not reach a valid timed run"
+    exit 1
+  fi
+done
+
+DHRYSTONES_PER_SECOND="$(awk '/Dhrystones per Second/ { print $NF; exit }' "${DHRYSTONE_LOG}")"
+DMIPS="$(awk -v dps="${DHRYSTONES_PER_SECOND}" 'BEGIN { printf "%.6f", dps / 1757.0 }')"
+DMIPS_PER_MHZ="$(awk -v dmips="${DMIPS}" -v mhz="${CORE_CLOCK_MHZ}" \
+  'BEGIN { printf "%.6f", dmips / mhz }')"
+
+echo
+echo "Reference Dhrystone summary"
+echo "Dhrystones/sec : ${DHRYSTONES_PER_SECOND}"
+echo "DMIPS          : ${DMIPS}"
+echo "DMIPS/MHz      : ${DMIPS_PER_MHZ}"

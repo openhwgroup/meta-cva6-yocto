@@ -23,7 +23,7 @@ do_compile () {
 
 do_install () {
     mkdir -p ${D}/usr/local/bin
-    install -m 0644 ${W}/bin/tetris  ${D}/usr/local/bin/tetris
+    install -m 0755 ${W}/bin/tetris  ${D}/usr/local/bin/tetris
     echo TOTO ${FILES_${PN}}
 }
 

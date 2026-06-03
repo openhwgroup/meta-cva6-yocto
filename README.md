@@ -53,6 +53,7 @@ This layer is available for:
 * **cv32a6-genesys2**: Same board with the bitstream generated from the [cva6 corev-apu](https://github.com/openhwgroup/cva6) with target *cv32a6_ima_sv32_fpga*.
 * **cv64a6-agilex7**: The [Altera FPGA board](https://www.altera.com/products/devkit/a1jui0000061rlpmay/agilex-7-fpga-f-series-development-kit-p-tile-and-e-tile-rev) with the bitstream generated from the [cva6 corev-apu](https://github.com/openhwgroup/cva6) with target default target *cv64a6_imafdc_sv39*.
 * **cv32a6-agilex7**: Same board with the bitstream generated from the [cva6 corev-apu](https://github.com/openhwgroup/cva6) with target *cv32a6_ima_sv32_fpga*.
+* **cv64a6-zcu111**: The AMD ZCU111 board with the validated CVA6 PL DDR4 bitstream. This machine is intended first for JTAG-loaded OpenSBI, Linux `Image`, DTB, and rootfs cpio validation, not SD-card boot.
 
 ## Build and flash your image
 
@@ -61,6 +62,30 @@ To generate a console-only image for the cv32a6-genesys2:
 MACHINE=cv32a6-genesys2 bitbake core-image-minimal
 ```
 Image files will be located in build/tmp-glibc/deploy/images/cv32a6-genesys2.
+
+To generate the ZCU111 validation image:
+
+```text
+MACHINE=cv64a6-zcu111 bitbake cva6-zcu111-image
+```
+
+Image files will be located in `build/tmp-glibc/deploy/images/cv64a6-zcu111`.
+The first ZCU111 flow uses JTAG loading, matching the existing CVA6 FPGA tests:
+
+```text
+fw_jump.elf        -> 0x80000000
+Image              -> 0x80200000
+cv64a6_zcu111.dtb  -> 0x82200000
+rootfs cpio.gz     -> loaded as initrd
+```
+
+The expected hardware validation commands after boot are:
+
+```text
+/root/mmio-test
+/root/irq-test
+/root/aes-gcm-test
+```
 
 ### Flashing in Genesys II
 Warning, you need to find the correct device image and fill it in the dd's of= parameter:
